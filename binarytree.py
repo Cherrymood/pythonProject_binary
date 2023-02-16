@@ -7,7 +7,7 @@ class BinarySearchTreeNode:
     def add_child(self, data):
         if data == self.data:
             return
-        if data < data.self:
+        if data < self.data:
             if self.left:
                 self.left.add_child(data)
             else:
@@ -16,11 +16,12 @@ class BinarySearchTreeNode:
             if self.right:
                 self.right.add_child(data)
             else:
-                self.left = BinarySearchTreeNode(data)
+                self.right = BinarySearchTreeNode(data)
 
     def in_order_traversal(self):
         elements = []
 
+        #elements.append(self.data)
         if self.left:
             elements += self.left.in_order_traversal()
 
@@ -28,44 +29,35 @@ class BinarySearchTreeNode:
 
         if self.right:
             elements += self.right.in_order_traversal()
+
+        #elements.append(self.data)
+
         return elements
 
-    def post_order_traversal(self):
-        elements1 = []
+    def search(self, val):
 
-        if self.left:
-            elements1 += self.left.in_order_traversal()
-        if self.right:
-            elements1 += self.right.in_order_traversal()
-        elements1.append(self.data)
-        return elements1
+        if self.data == val:
+            return True
 
-    def pre_order_traversal(self):
-            elements2 = []
-
-            elements2.append(self.data)
+        if val < self.data:
             if self.left:
-                elements2 += self.left.in_order_traversal()
-            if self.right:
-                elements2 += self.right.in_order_traversal()
-            elements2.append(self.data)
+                return self.left.search(val)
+            else:
+                return False
 
-            return elements2
+        if val > self.data:
+            if self.right:
+                return self.right.search(val)
+            else:
+                return False
 
 def build_tree(elements):
     root = BinarySearchTreeNode(elements[0])
 
     for index in range(1, len(elements)):
         root.add_child(elements[index])
-        return root
 
-
-if __name__ == '__main__':
-    numbers = [17, 4, 1, 20, 9, 23, 18, 34]
-    numbers_tree = build_tree(numbers)
-    print(numbers_tree.in_order_traversal())
-    print(numbers_tree.pre_order_traversal())
-    print(numbers_tree.post_order_traversal())
+    return root
 
 
 
